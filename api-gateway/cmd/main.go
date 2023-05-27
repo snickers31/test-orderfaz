@@ -4,7 +4,9 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/snickers31/test-orderfaz/api-gateway/pkg/auth"
 	"github.com/snickers31/test-orderfaz/api-gateway/pkg/config"
+	"github.com/snickers31/test-orderfaz/api-gateway/pkg/logistic"
 )
 
 func main() {
@@ -16,6 +18,9 @@ func main() {
 	}
 
 	r := gin.Default()
+	authSvc := *auth.RegisterRoutes(r, &c)
+
+	logistic.RegisterRoutes(r, &c, &authSvc)
 
 	r.Run(c.Port)
 
