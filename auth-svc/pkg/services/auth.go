@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
 	"regexp"
 
 	"github.com/google/uuid"
@@ -30,9 +29,9 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 
 	if !match {
 		return &pb.RegisterResponse{
-			Status: int64(codes.Aborted),
+			Status: int64(codes.InvalidArgument),
 			Error:  "kolom MSISDN harus diawali oleh 62",
-		}, fmt.Errorf("kolom MSISDN harus diawali oleh 62")
+		}, nil
 	}
 
 	var count int64
@@ -50,7 +49,7 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 		return &pb.RegisterResponse{
 			Status: int64(codes.AlreadyExists),
 			Error:  "data MSISDN atau username telah terdaftar",
-		}, fmt.Errorf("data MSISDN atau username telah terdaftar")
+		}, nil
 	}
 
 	user.ID = uuid.New()
@@ -63,7 +62,7 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 		return &pb.RegisterResponse{
 			Status: int64(codes.Internal),
 			Error:  err.Error(),
-		}, err
+		}, nil
 	}
 
 	return &pb.RegisterResponse{

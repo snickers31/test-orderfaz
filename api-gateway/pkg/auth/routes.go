@@ -7,13 +7,20 @@ import (
 )
 
 func RegisterRoutes(r *gin.Engine, c *config.Config) *ServiceClient {
+
 	svc := &ServiceClient{
 		Client: InitServiceClient(c),
 	}
 
-	routes := r.Group("/api/auth")
-	routes.POST("/register", svc.Register)
-	routes.POST("/login", svc.Login)
+	a := InitAuthMiddleware(svc)
+
+	route := r.Group("/auth")
+	route.POST("/register", svc.Register)
+	route.POST("/login", svc.Login)
+
+	route.Use(a.AuthRequired)
+
+	route.GET("/me", svc.GetClaimId)
 
 	return svc
 }
@@ -24,4 +31,7 @@ func (svc *ServiceClient) Register(ctx *gin.Context) {
 
 func (svc *ServiceClient) Login(ctx *gin.Context) {
 	routes.Login(ctx, svc.Client)
+}
+func (svc *ServiceClient) GetClaimId(ctx *gin.Context) {
+	routes.GetClaimsId(ctx)
 }

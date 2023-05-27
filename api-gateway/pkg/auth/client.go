@@ -14,7 +14,6 @@ type ServiceClient struct {
 
 func InitServiceClient(c *config.Config) pb.AuthServiceClient {
 	cc, err := grpc.Dial(c.AuthSvcUrl, grpc.WithInsecure())
-
 	if err != nil {
 		fmt.Println("Could not connect to auth service: ", err)
 	}

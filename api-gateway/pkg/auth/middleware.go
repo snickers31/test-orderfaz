@@ -21,14 +21,18 @@ func (am *AuthMiddlewareConfig) AuthRequired(ctx *gin.Context) {
 	authorization := ctx.Request.Header.Get("authorization")
 
 	if authorization == "" {
-		ctx.AbortWithStatus(http.StatusUnauthorized)
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"err": "Unauthorized",
+		})
 		return
 	}
 
 	token := strings.Split(authorization, "Bearer ")
 
 	if len(token) != 2 {
-		ctx.AbortWithStatus(http.StatusUnauthorized)
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"err": "Unauthorized",
+		})
 		return
 	}
 
@@ -36,8 +40,10 @@ func (am *AuthMiddlewareConfig) AuthRequired(ctx *gin.Context) {
 		Token: token[1],
 	})
 
-	if err != nil || res.Status != http.StatusOK {
-		ctx.AbortWithStatus(http.StatusUnauthorized)
+	if err != nil || res.GetStatus() != 0 {
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+			"err": err.Error(),
+		})
 		return
 	}
 
