@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/snickers31/test-orderfaz/api-gateway/cmd/docs"
 	"github.com/snickers31/test-orderfaz/api-gateway/pkg/auth/constants"
 	"github.com/snickers31/test-orderfaz/api-gateway/pkg/proto"
 )
