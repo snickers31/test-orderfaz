@@ -34,7 +34,7 @@ func main() {
 		log.Fatalln("Failed to listen:", err)
 	}
 
-	fmt.Println("Auht Service Running On ", c.Port)
+	fmt.Println("auth Service Running On ", c.Port)
 
 	s := services.Server{
 		H:   h,
