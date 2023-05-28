@@ -1,0 +1,73 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:12-alpine
+    container_name: db-oss
+    restart: always
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_USER=rizal31
+      - POSTGRES_PASSWORD=oumendt31
+      - POSTGRES_DB=orderfaz
+    networks:
+      - orderfaz-net
+    volumes:
+      - vdb:/var/lib/postgresql/data
+
+  api-gateway:
+    build:
+      context: api-gateway/.
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    restart: always
+    environment:
+      - TZ=Asia/Jakarta
+    ports: 
+      - "80:3000"
+    networks:
+      - orderfaz-net
+    volumes:
+      - vapi:/api
+
+  auth-svc:
+    build:
+      context: auth-svc/.
+      dockerfile: Dockerfile
+    container_name: auth-svc
+    restart: always
+    environment:
+      - TZ=Asia/Jakarta
+    expose: 
+      - "5051"
+    networks:
+      - orderfaz-net
+    volumes:
+      - vauth:/api
+
+  logistic-svc:
+    build:
+      context: logistic-svc/.
+      dockerfile: Dockerfile
+    container_name: logistic-svc
+    restart: always
+    environment:
+      - TZ=Asia/Jakarta
+    expose: 
+      - "5052"
+    networks:
+      - orderfaz-net
+    volumes:
+      - vlogistic:/api
+
+
+
+
+networks:
+  orderfaz-net:
+
+volumes:
+  vapi:
+  vauth:
+  vlogistic:
+  vdb:

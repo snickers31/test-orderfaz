@@ -1,0 +1,27 @@
+FROM golang:1.19-alpine
+
+#RUN apk --no-cache add curl git
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+
+RUN apk --no-cache add gcc g++ make git pkgconfig curl git
+
+RUN apk --no-cache add vips-dev fftw-dev vips expat unzip
+
+RUN apk --no-cache add protoc protobuf
+
+WORKDIR /api
+
+RUN git config --global --add safe.directory /api
+
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod tidy 
+
+#copy semua file
+COPY . .
+
+RUN go build -o ./app ./cmd
+
+CMD ping db-oss -c2 \
+    && ./app
