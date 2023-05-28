@@ -5,11 +5,17 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/snickers31/test-orderfaz/api-gateway/cmd/docs"
 	"github.com/snickers31/test-orderfaz/api-gateway/pkg/auth/constants"
-	"github.com/snickers31/test-orderfaz/api-gateway/pkg/auth/pb"
+	"github.com/snickers31/test-orderfaz/api-gateway/pkg/proto"
 )
 
-func Login(ctx *gin.Context, c pb.AuthServiceClient) {
+// PostBook             godoc
+// @Summary      Store a new book
+// @Description  Takes a book JSON and store in DB. Return saved JSON.
+// @Tags         books
+// @Produce      json
+func Login(ctx *gin.Context, c proto.AuthServiceClient) {
 	requestBody := constants.LoginRequestBody{}
 
 	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
@@ -19,7 +25,7 @@ func Login(ctx *gin.Context, c pb.AuthServiceClient) {
 		return
 	}
 
-	res, err := c.Login(context.Background(), &pb.LoginRequest{
+	res, err := c.Login(context.Background(), &proto.LoginRequest{
 		Msisdn:   requestBody.Msisdn,
 		Password: requestBody.Password,
 	})

@@ -14,13 +14,13 @@ func RegisterRoutes(r *gin.Engine, c *config.Config) *ServiceClient {
 
 	a := InitAuthMiddleware(svc)
 
-	route := r.Group("/auth")
+	route := r.Group("/api/auth")
 	route.POST("/register", svc.Register)
 	route.POST("/login", svc.Login)
 
 	route.Use(a.AuthRequired)
 
-	route.GET("/me", svc.GetClaimId)
+	route.GET("/get-claim-id", svc.GetClaimId)
 
 	return svc
 }

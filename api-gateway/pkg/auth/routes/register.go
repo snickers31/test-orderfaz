@@ -6,10 +6,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/snickers31/test-orderfaz/api-gateway/pkg/auth/constants"
-	"github.com/snickers31/test-orderfaz/api-gateway/pkg/auth/pb"
+	"github.com/snickers31/test-orderfaz/api-gateway/pkg/proto"
 )
 
-func Register(ctx *gin.Context, c pb.AuthServiceClient) {
+func Register(ctx *gin.Context, c proto.AuthServiceClient) {
 	requestBody := constants.RegisterRequestBody{}
 
 	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
@@ -19,7 +19,7 @@ func Register(ctx *gin.Context, c pb.AuthServiceClient) {
 		return
 	}
 
-	res, _ := c.Register(context.Background(), &pb.RegisterRequest{
+	res, _ := c.Register(context.Background(), &proto.RegisterRequest{
 		Msisdn:   requestBody.Msisdn,
 		Name:     requestBody.Name,
 		Username: requestBody.Username,

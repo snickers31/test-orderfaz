@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/snickers31/test-orderfaz/api-gateway/pkg/auth/pb"
+	"github.com/snickers31/test-orderfaz/api-gateway/pkg/proto"
 )
 
 type AuthMiddlewareConfig struct {
@@ -36,7 +36,7 @@ func (am *AuthMiddlewareConfig) AuthRequired(ctx *gin.Context) {
 		return
 	}
 
-	res, err := am.svc.Client.Validate(context.Background(), &pb.ValidateRequest{
+	res, err := am.svc.Client.Validate(context.Background(), &proto.ValidateRequest{
 		Token: token[1],
 	})
 

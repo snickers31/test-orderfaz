@@ -3,21 +3,21 @@ package auth
 import (
 	"fmt"
 
-	"github.com/snickers31/test-orderfaz/api-gateway/pkg/auth/pb"
 	"github.com/snickers31/test-orderfaz/api-gateway/pkg/config"
+	"github.com/snickers31/test-orderfaz/api-gateway/pkg/proto"
 	"google.golang.org/grpc"
 )
 
 type ServiceClient struct {
-	Client pb.AuthServiceClient
+	Client proto.AuthServiceClient
 }
 
-func InitServiceClient(c *config.Config) pb.AuthServiceClient {
+func InitServiceClient(c *config.Config) proto.AuthServiceClient {
 	cc, err := grpc.Dial(c.AuthSvcUrl, grpc.WithInsecure())
 	if err != nil {
 		fmt.Println("Could not connect to auth service: ", err)
 	}
 
-	return pb.NewAuthServiceClient(cc)
+	return proto.NewAuthServiceClient(cc)
 
 }

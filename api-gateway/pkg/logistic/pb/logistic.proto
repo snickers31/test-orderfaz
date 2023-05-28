@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package logistic;
 
-option go_package = "./pkg/logistic/pb";
+option go_package = "./pkg/proto";
 
 
 service LogisticService {

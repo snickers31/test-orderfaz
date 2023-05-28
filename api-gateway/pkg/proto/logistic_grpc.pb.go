@@ -4,7 +4,7 @@
 // - protoc             v3.6.1
 // source: pkg/logistic/pb/logistic.proto
 
-package pb
+package proto
 
 import (
 	context "context"
